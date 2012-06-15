@@ -1,4 +1,0 @@
-lehti
-=====
-
-gauche extension manager
