@@ -17,6 +17,10 @@
   (build-path (home-directory)
               ".lehti/cache"))
 
+(define *lehti-leh-file-directory*
+  (build-path (home-directory)
+              ".lehti/leh"))
+
 (define (usage status)
   (exit status "usage: ~a <command> <package-name>\n" *program-name*))
 
@@ -27,8 +31,9 @@
 
 (define install
   (lambda (package)
-    (let ((lehtifile (string-append package
-                                    ".leh"))
+    (let ((lehtifile (build-path *lehti-leh-file-directory*
+                                 (string-append package
+                                                ".leh")))
           (prefix-directory  (build-path  *lehti-dist-directory*
                                           package)))
       (and-let*
@@ -49,7 +54,7 @@
       (current-directory tmpdir)
       (cond
         ((url-is-git? url)
-             (run-process `(git clone ,url ,package) :wait #t))
+         (run-process `(git clone ,url ,package) :wait #t))
         (else
           exit)
         )
@@ -64,6 +69,7 @@
       (when (null-list? rest)
         (usage 0))
       (match (car  rest)
+        ;; actions
         ("install"
          (install (cadr rest))) 
 
