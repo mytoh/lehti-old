@@ -1,5 +1,5 @@
 
-Desktop
+don't use this
 -------------------
 gauche extension manager
 
