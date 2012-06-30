@@ -7,19 +7,21 @@
 (use file.util)
 (require-extension
   (srfi 1))
-(use kirjasto.verkko.scm)
+(use kirjasto)
+
+(define *lehti-directory*
+  (build-path (home-directory)
+    ".lehti"))
 
 (define *lehti-dist-directory*
-  (build-path (home-directory)
-              ".lehti/dist"))
+  (build-path  *lehti-directory* "dist"))
 
 (define *lehti-cache-directory*
-  (build-path (home-directory)
-              ".lehti/cache"))
+  (build-path *lehti-directory*
+              "cache"))
 
 (define *lehti-leh-file-directory*
-  (build-path (home-directory)
-              ".lehti/leh"))
+  (build-path *lehti-directory* "leh"))
 
 (define (usage status)
   (exit status "usage: ~a <command> <package-name>\n" *program-name*))
@@ -44,8 +46,64 @@
           (lambda (c) ( eval c (interaction-environment)))
           commands)
         (remove-directory* (build-path *lehti-cache-directory* package))
-        ))))
+        ))
+    (link package)))
 
+(define link
+  (lambda (package)
+    (let* ((package-directory (build-path *lehti-dist-directory*
+                                package)))
+    (current-directory *lehti-directory*)
+
+    (newline)
+    (display (string-append "[38;5;38m" ":: " "[0m"))
+    (print "symlinking files")
+    (newline)
+    (letrec ((relative-path
+              (lambda (p)
+                (fold
+                    (lambda (e str)
+                      (string-append "../" str))
+                  (simplify-path
+                      (string-append
+                          "."
+                        (string-scan p
+                           *lehti-directory*
+                          'after)))
+                  (string-split
+                      (sys-dirname
+                          (simplify-path
+                              (string-append
+                                  "."
+                                (string-scan p
+                                  package-directory
+                                  'after))))
+                    #/\//))))
+             (file-list
+              (directory-fold
+                  package-directory
+                (lambda (path seed)
+                  (cons (list
+                            (relative-path path)
+                          (simplify-path (string-append "."
+                                           (string-scan path
+                                             package-directory
+                                             'after))))
+                    seed))
+                '())))
+      (for-each
+       (^p
+        (unless (file-exists? (sys-dirname (cadr p)))
+             (make-directory* (sys-dirname (cadr p))))
+        (unless  (file-exists? (cadr p))
+           (begin
+             (print (string-append
+                        "linking file "
+                      (colour-string 163
+                        (cadr  p))))
+             (sys-symlink (car p)
+               (cadr p)))))
+       file-list)))))
 
 (define fetch
   (lambda (url package)
@@ -71,7 +129,7 @@
       (match (car  rest)
         ;; actions
         ("install"
-         (install (cadr rest))) 
+         (install (cadr rest)))
 
         (_ (usage 0))))))
 
