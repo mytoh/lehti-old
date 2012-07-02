@@ -4,7 +4,5 @@
   ((run-process '(autoconf) :wait #t)
    (run-process `(./configure ,(string-append "--prefix="
                                               (build-path *lehti-dist-directory* "tk" ))) :wait #t)
-   (run-process `(gmake stubs) :wait #t)
    (run-process `(gmake) :wait #t)
-   (run-process `(gmake install) :wait #t)
-   ))
+   (run-process `(gmake install) :wait #t)))

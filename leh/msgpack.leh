@@ -1,0 +1,11 @@
+
+(url  "git://github.com/kenhys/gauche-msgpack")
+(install
+  (
+   (run-process '(sh DIST gen) :wait #t)
+   (run-process `(./configure ,(string-append "--prefix="
+                                 (build-path *lehti-dist-directory* "msgpack" ))
+                              "--with-zlib=/usr")
+     :wait #t)
+   (run-process `(gmake) :wait #t)
+   (run-process `(gmake install) :wait #t)))
