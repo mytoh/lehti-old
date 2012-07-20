@@ -45,8 +45,7 @@
         (for-each
           (lambda (c) ( eval c (interaction-environment)))
           commands)
-        (remove-directory* (build-path *lehti-cache-directory* package))
-        ))
+        (remove-directory* (build-path *lehti-cache-directory* package))))
     (link package)))
 
 (define link
