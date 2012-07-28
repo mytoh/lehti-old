@@ -1,0 +1,10 @@
+(url  "git://github.com/aharisu/Gauche-CV")
+(install
+  ( (run-process '(sh ./DIST gen) :wait #t)
+   (run-process `(./configure ,(string-append "--prefix="
+                                              (build-path *lehti-dist-directory* "cv" ))) :wait #t)
+   (run-process `(gmake ) :wait #t)
+   (run-process `(gmake -s check) :wait #t)
+   (run-process `(gmake install) :wait #t)
+   )
+  )
