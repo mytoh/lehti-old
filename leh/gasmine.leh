@@ -1,0 +1,11 @@
+
+
+(url  "git://github.com/kana/gauche-test-gasmine")
+(install
+  ( (run-process '(./DIST gen) :wait #t)
+   (run-process `(./configure ,(string-append "--prefix="
+                                              (build-path *lehti-dist-directory* "gasmine" ))) :wait #t)
+   (run-process `(gmake -s check) :wait #t)
+   (run-process `(gmake install) :wait #t)
+   )
+  )
