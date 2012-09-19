@@ -1,6 +1,9 @@
 #!/usr/bin/env gosh
 ;; -*- coding: utf-8 -*-
 (use lehti.bin-runner)
+(use lehti)
+(use gauche.process)
+(use file.util)
 
 
 

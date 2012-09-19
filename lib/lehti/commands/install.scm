@@ -2,8 +2,9 @@
 ;; -*- coding: utf-8 -*-
 
 (define-module lehti.commands.install
-  (export)
+  (export install)
   (use lehti.env)
+  (use lehti.commands.fetch)
   (use file.util)
   (use gauche.process))
 (select-module lehti.commands.install)

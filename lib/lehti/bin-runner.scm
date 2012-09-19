@@ -77,20 +77,6 @@
                (cadr p)))))
        file-list)))))
 
-(define fetch
-  (lambda (url package)
-    (let ((tmpdir *lehti-cache-directory*))
-      (make-directory* tmpdir)
-      (current-directory tmpdir)
-      (cond
-        ((url-is-git? url)
-         (run-process `(git clone ,url ,package) :wait #t))
-        (else
-          exit)
-        )
-      (build-path tmpdir package)
-      )))
-
 (define bin-runner
   (lambda (args)
     (let-args (cdr args)
