@@ -1,0 +1,15 @@
+#!/usr/bin/env gosh
+;; -*- coding: utf-8 -*-
+(use lehti.bin-runner)
+
+
+
+
+(define (main args)
+  (bin-runner args))
+
+
+
+
+
+;; vim:filetype=scheme
