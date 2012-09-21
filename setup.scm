@@ -10,7 +10,6 @@
 
 (define (make-load-path)
   (string-join
-    (append
       (remove not
         (map
           (lambda (e)
@@ -20,7 +19,6 @@
                 lib-path
                 #f)))
           (directory-list dist-directory :add-path? #t :children? #t)))
-      *load-path*)
     ":"))
 
 (define (make-dynload-path)
@@ -35,12 +33,31 @@
                 lib-path
                 #f)))
           (directory-list dist-directory :add-path? #t :children? #t)))
-      (list (sys-getenv "GAUCHE_DYNLOAD_PATH")))
+      (list (let1 dynpath (sys-getenv "GAUCHE_DYNLOAD_PATH")
+              dynpath "")))
     ":"))
+
+(define (make-path)
+  (string-join
+      (remove not
+        (map
+          (lambda (e)
+            (let ((bin-path
+                    (build-path e "bin")))
+              (if (file-exists? bin-path)
+                bin-path
+                #f)))
+          (directory-list dist-directory :add-path? #t :children? #t)))
+    ":"))
+
+
 
 (define (main args)
   (match (cdr args)
     (("load-path")
      (display (make-load-path)))
     (("dynload-path")
-     (display (make-dynload-path)))))
+     (display (make-dynload-path)))
+    (("path")
+     (display (make-path)))
+    ))

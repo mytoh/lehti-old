@@ -1,0 +1,12 @@
+
+
+
+(url  "git://github.com/mytoh/piste")
+(install
+  (
+   (make-directory* (build-path *lehti-dist-directory* "piste" ))
+   (make-directory* (build-path *lehti-dist-directory* "piste/bin" ))
+   (copy-file (build-path *lehti-cache-directory* "piste/bin/piste")
+              (build-path *lehti-dist-directory* "piste/bin/piste"))
+   (run-process `(chmod +x ,(build-path *lehti-dist-directory* "piste/bin/piste")) :wait #t)
+   ))
