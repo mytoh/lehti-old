@@ -10,6 +10,7 @@
 
 (define (make-load-path)
   (string-join
+    (append
       (remove not
         (map
           (lambda (e)
@@ -19,7 +20,20 @@
                 lib-path
                 #f)))
           (directory-list dist-directory :add-path? #t :children? #t)))
+      (make-src-load-path))
     ":"))
+
+(define (make-src-load-path)
+      (remove not
+        (map
+          (lambda (e)
+            (let ((lib-path
+                    (build-path e "src")))
+              (if (file-exists? lib-path)
+                lib-path
+                #f)))
+          (directory-list dist-directory :add-path? #t :children? #t))))
+
 
 (define (make-dynload-path)
   (string-join
