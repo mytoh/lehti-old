@@ -88,7 +88,7 @@
         ;; actions
         ("install"
          (install (cadr rest)))
-        ("uninstall"
+        ((or "uninstall" "rm")
          (uninstall (cadr rest)))
 
         (_ (usage 0))))))

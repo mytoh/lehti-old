@@ -5,8 +5,11 @@
 (install
   (
    (make-directory* (build-path *lehti-dist-directory* "piste" ))
-   (make-directory* (build-path *lehti-dist-directory* "piste/bin" ))
-   (copy-file (build-path *lehti-cache-directory* "piste/bin/piste")
-              (build-path *lehti-dist-directory* "piste/bin/piste"))
+   (copy-directory* (build-path *lehti-cache-directory* "piste/bin")
+                    (build-path *lehti-dist-directory* "piste/bin"))
+   (copy-directory* (build-path *lehti-cache-directory* "piste/src")
+                    (build-path *lehti-dist-directory* "piste/src"))
+   (copy-directory* (build-path *lehti-cache-directory* "piste/etc")
+                    (build-path *lehti-dist-directory* "piste/etc"))
    (run-process `(chmod +x ,(build-path *lehti-dist-directory* "piste/bin/piste")) :wait #t)
    ))
