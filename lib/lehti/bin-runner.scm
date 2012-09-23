@@ -1,5 +1,6 @@
 (define-module lehti.bin-runner
   (export bin-runner)
+  (use gauche.parseopt)
   (use util.match)
   (use file.util)
   (use lehti)
@@ -14,9 +15,6 @@
   (lambda ()
     (file->sexp-list
       "lehtifile")))
-
-
-
 
 (define bin-runner
   (lambda (args)
