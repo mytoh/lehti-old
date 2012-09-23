@@ -1,6 +1,6 @@
 
 # setup 
-if ( ! ($?LEHTI_DIR) ) then
+if ( ! $?LEHTI_DIR ) then
 setenv LEHTI_DIR "${HOME}/.lehti"
 endif
 setenv LEHTI_LIB_DIR "${LEHTI_DIR}/lib"

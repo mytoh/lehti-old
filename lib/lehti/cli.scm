@@ -1,11 +1,11 @@
-(define-module lehti.bin-runner
-  (export bin-runner)
+(define-module lehti.cli
+  (export runner)
   (use gauche.parseopt)
   (use util.match)
   (use file.util)
   (use lehti)
   (use lehti.commands))
-(select-module lehti.bin-runner)
+(select-module lehti.cli)
 
 
 (define (usage status)
@@ -16,7 +16,7 @@
     (file->sexp-list
       "lehtifile")))
 
-(define bin-runner
+(define runner
   (lambda (args)
     (let-args (cdr args)
       ((#f "h|help" (usage 0))

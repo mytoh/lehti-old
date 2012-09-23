@@ -1,6 +1,6 @@
 #!/usr/bin/env gosh
 ;; -*- coding: utf-8 -*-
-(use lehti.bin-runner)
+(use lehti.cli :prefix cli:)
 (use lehti)
 (use gauche.process)
 (use file.util)
@@ -9,7 +9,7 @@
 
 
 (define (main args)
-  (bin-runner args))
+  (cli:runner args))
 
 
 
