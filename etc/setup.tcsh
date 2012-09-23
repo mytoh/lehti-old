@@ -1,7 +1,17 @@
 
-setenv LEHTIDIR "${HOME}/.lehti"
-setenv LEHTI_PATH `gosh $LEHTIDIR/setup.scm path`
-set path=($LEHTIDIR/bin $LEHTI_PATH $path)
-setenv LEHTI_LOAD_PATH "${LEHTIDIR}/lib:`gosh ${LEHTIDIR}/setup.scm load-path`"
-setenv GAUCHE_LOAD_PATH "${LEHTI_LOAD_PATH}:$GAUCHE_LOAD_PATH"
-setenv GAUCHE_DYNLOAD_PATH `gosh $LEHTIDIR/setup.scm dynload-path`
+# setup 
+setenv LEHTI_DIR "${HOME}/.lehti"
+setenv LEHTI_LIB_DIR "${LEHTI_DIR}/lib"
+setenv GAUCHE_LOAD_PATH "${LEHTI_LIB_DIR}:${GAUCHE_LOAD_PATH}"
+setenv PATH "${LEHTI_DIR}/bin:${PATH}"
+
+# path
+setenv LEHTI_PATH "`lehti setup path`"
+setenv PATH ":${LEHTI_PATH}:${PATH}"
+
+# load path
+setenv LEHTI_LOAD_PATH "`lehti setup load-path`"
+setenv GAUCHE_LOAD_PATH "${LEHTI_LOAD_PATH}:${GAUCHE_LOAD_PATH}"
+
+# dyn load path
+setenv GAUCHE_DYNLOAD_PATH `lehti setup dynload-path`

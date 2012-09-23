@@ -6,6 +6,8 @@
     lehti.commands.install
     lehti.commands.uninstall
     lehti.commands.fetch
+    lehti.commands.setup
+    lehti.commands.link
     )
   )
 (select-module lehti.commands)
