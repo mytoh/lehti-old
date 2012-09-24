@@ -1,0 +1,16 @@
+
+
+
+(url  "git://github.com/mytoh/talikko")
+(install
+  (
+   ;; bin
+   (make-directory* (build-path *lehti-dist-directory* "talikko" ))
+   (copy-directory* (build-path *lehti-cache-directory* "talikko/bin")
+                    (build-path *lehti-dist-directory* "talikko/bin"))
+   (run-process `(chmod +x ,(build-path *lehti-dist-directory* "talikko/bin/talikko")) :wait #t)
+
+   ;; library sources
+   (copy-directory* (build-path *lehti-cache-directory* "talikko/src")
+                    (build-path *lehti-dist-directory* "talikko/src"))
+   ))
