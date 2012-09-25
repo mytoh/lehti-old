@@ -10,8 +10,8 @@
 (select-module lehti.env)
 
 (define *lehti-directory*
-  (build-path (home-directory)
-    ".lehti"))
+  (sys-getenv "LEHTI_DIR")
+  )
 
 (define *lehti-dist-directory*
   (build-path  *lehti-directory* "dist"))

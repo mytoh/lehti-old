@@ -8,7 +8,7 @@
     lehti.commands.fetch
     lehti.commands.setup
     lehti.commands.link
-    lehti.commands.commands
+    lehti.commands.command
     )
   )
 (select-module lehti.commands)

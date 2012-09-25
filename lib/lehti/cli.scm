@@ -31,9 +31,10 @@
          (uninstall (cadr rest)))
         ("setup"
          (setup (cadr rest)))
-        ("commands"
-         (commands ))
+        ("command"
+         (print-commands))
         (_ (usage 0))))))
+
 
 
 

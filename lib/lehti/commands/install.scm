@@ -18,11 +18,11 @@
                                           package)))
       (and-let*
         ((url  (cadr  (assoc 'url (file->sexp-list lehtifile))))
-         (commands (cadr (assoc 'install (file->sexp-list lehtifile)))))
+         (cmd (cadr (assoc 'install (file->sexp-list lehtifile)))))
         (current-directory (fetch url package))
         (for-each
           (lambda (c) (eval c (interaction-environment)))
-          commands)
+          cmd)
         (remove-directory* (build-path *lehti-cache-directory* package))
         ))
     ; (link package)
