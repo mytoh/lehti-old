@@ -34,7 +34,7 @@
         ("command"
          (print-commands))
         ("create"
-         (create (cadr rest)))
+         (create rest))
         (_ (usage 0))))))
 
 
