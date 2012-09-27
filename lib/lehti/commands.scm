@@ -9,6 +9,7 @@
     lehti.commands.setup
     lehti.commands.link
     lehti.commands.command
+    lehti.commands.create
     )
   )
 (select-module lehti.commands)
