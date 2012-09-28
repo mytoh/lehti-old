@@ -1,0 +1,15 @@
+
+
+(url  "git://github.com/mytoh/nopea")
+(install
+  (
+   ;; bin
+   (make-directory* (build-path *lehti-dist-directory* "nopea" ))
+   (copy-directory* (build-path *lehti-cache-directory* "nopea/bin")
+                    (build-path *lehti-dist-directory* "nopea/bin"))
+   (run-process `(chmod +x ,(build-path *lehti-dist-directory* "nopea/bin/nopea")) :wait #t)
+
+   ;; library sources
+   (copy-directory* (build-path *lehti-cache-directory* "nopea/src")
+                    (build-path *lehti-dist-directory* "nopea/src"))
+   ))
