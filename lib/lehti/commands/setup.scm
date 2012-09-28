@@ -12,19 +12,23 @@
 
 
 (define (make-load-path)
-  (string-join
     (append
       (remove not
               (map
                 (lambda (e)
-                  (let ((lib-path
-                          (build-path e "share/gauche-0.9/site/lib")))
-                    (if (file-exists? lib-path)
-                      lib-path
-                      #f)))
+                  (let ((share-lib-path (build-path e "share/gauche-0.9/site/lib")))
+                    (cond
+                      ((file-exists? share-lib-path)
+                       share-lib-path)
+                      ((and (file-exists? (build-path e "lib"))
+                         (not (file-exists? (build-path e "lib/gauche-0.9"))))
+                       (build-path e "lib"))
+                      (else
+                        #f))))
                 (directory-list *lehti-dist-directory* :add-path? #t :children? #t)))
-      (make-src-load-path))
-    ":"))
+      (make-src-load-path)))
+
+
 
 (define (make-src-load-path)
   (remove not
@@ -39,42 +43,46 @@
 
 
 (define (make-dynload-path)
-  (string-join
-    (append
-      (remove not
-              (map
-                (lambda (e)
-                  (let ((lib-path
-                          (build-path e "lib/gauche-0.9/site" (gauche-architecture))))
-                    (if (file-exists? lib-path)
-                      lib-path
-                      #f)))
-                (directory-list *lehti-dist-directory* :add-path? #t :children? #t)))
+  (append
+      (map (lambda (e) (build-path e "lib/gauche-0.9/site" (gauche-architecture)))
+           (directory-list *lehti-dist-directory*
+                           :add-path? #t
+                           :children? #t
+                           :filter-add-path? #t
+                           :filter (lambda (e)
+                                     (let ((lib-path
+                                             (build-path e "lib/gauche-0.9/site" (gauche-architecture))))
+                                       (if (file-exists? lib-path)
+                                         #t
+                                         #f)))))
       (list (let1 dynpath (sys-getenv "GAUCHE_DYNLOAD_PATH")
-              dynpath "")))
-    ":"))
+              dynpath ""))))
+
 
 (define (make-path)
-  (string-join
-    (remove not
-            (map
-              (lambda (e)
-                (let ((bin-path
-                        (build-path e "bin")))
-                  (if (file-exists? bin-path)
-                    bin-path
-                    #f)))
-              (directory-list *lehti-dist-directory* :add-path? #t :children? #t)))
-    ":"))
+  (map
+    (lambda (e) (build-path e "bin"))
+    (directory-list *lehti-dist-directory*
+                    :filter-add-path? #t
+                    :filter (lambda (e)
+                              (let ((bin-path
+                                      (build-path e "bin")))
+                                (if (file-exists? bin-path)
+                                  #t
+                                  #f)))
+                    :add-path? #t
+                    :children? #t)))
 
+
+(define (list->path lst)
+  (string-join lst ":"))
 
 
 (define (setup args)
   (match args
     ("load-path"
-     (display (make-load-path)))
+     (display (list->path (make-load-path))))
     ("dynload-path"
-     (display (make-dynload-path)))
+     (display (list->path (make-dynload-path))))
     ("path"
-     (display (make-path)))
-    ))
+     (display (list->path (make-path))))))

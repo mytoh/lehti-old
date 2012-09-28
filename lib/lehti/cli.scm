@@ -33,8 +33,8 @@
          (setup (cadr rest)))
         ("command"
          (print-commands))
-        ("create"
-         (create rest))
+        ((or "generate" "g")
+         (generate rest))
         (_ (usage 0))))))
 
 

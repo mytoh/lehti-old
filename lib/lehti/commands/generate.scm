@@ -2,27 +2,27 @@
 
 ;; -*- coding: utf-8 -*-
 
-(define-module lehti.commands.create
-  (export create)
+(define-module lehti.commands.generate
+  (export generate)
   (use lehti.env)
   (use file.util)
   (use util.list)
   (use text.tree)
   (use gauche.process))
-(select-module lehti.commands.create)
+(select-module lehti.commands.generate)
 
 
 (define (dir-spec name cmds)
   `(,name
      ((bin ((,name ,make-bin)))
+      (spec ((,(path-swap-extension name "spec.scm"))))
       (src
         ((,(path-swap-extension name "scm") ,make-src)
          (,name (("cli.scm" ,make-src-cli)
                  (commands ,(if (null? cmds)
-                              (command-list '(help) make-src-commands-list)
+                              (command-list '("help") make-src-commands-list)
                               (command-list cmds make-src-commands-list)))
-                 ("commands.scm" ,make-src-commands))))
-        ))))
+                 ("commands.scm" ,make-src-commands))))))))
 
 (define (make-src-commands-list path)
   (let* ((cmd (sys-basename path))
@@ -137,7 +137,7 @@
   (run-process '(git init) :wait #t)
   )
 
-(define (create args)
+(define (generate args)
   (let ((name (cadr args))
         (cmds (cddr args)))
   (cond
