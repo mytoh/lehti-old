@@ -9,7 +9,7 @@
   (use gauche.process))
 (select-module lehti.commands.install)
 
- (define install
+(define install
   (lambda (package)
     (let ((lehtifile (build-path *lehti-leh-file-directory*
                                  (string-append package
@@ -23,7 +23,4 @@
         (for-each
           (lambda (c) (eval c (interaction-environment)))
           cmd)
-        (remove-directory* (build-path *lehti-cache-directory* package))
-        ))
-    ; (link package)
-    ))
+        (remove-directory* (build-path *lehti-cache-directory* package))))))

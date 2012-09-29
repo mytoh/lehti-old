@@ -16,15 +16,15 @@
   `(,name
      ((bin ((,name ,make-bin)))
       (spec ((,(path-swap-extension name "spec.scm"))))
-      (src
-        ((,(path-swap-extension name "scm") ,make-src)
-         (,name (("cli.scm" ,make-src-cli)
+      (lib
+        ((,(path-swap-extension name "scm") ,make-lib)
+         (,name (("cli.scm" ,make-lib-cli)
                  (commands ,(if (null? cmds)
-                              (command-list '("help") make-src-commands-list)
-                              (command-list cmds make-src-commands-list)))
-                 ("commands.scm" ,make-src-commands))))))))
+                              (command-list '("help") make-lib-commands-list)
+                              (command-list cmds make-lib-commands-list)))
+                 ("commands.scm" ,make-lib-commands))))))))
 
-(define (make-src-commands-list path)
+(define (make-lib-commands-list path)
   (let* ((cmd (sys-basename path))
         (name (sys-basename (sys-dirname (sys-dirname path))))
         (module (string-append name ".commands." cmd)))
@@ -35,8 +35,7 @@
         `(
           ,(string-append "(define-module " module)
           "  )"
-          ,(string-append "(select-module " module ")")
-
+          ,(string-append "(select-module " name ")")
           ))))))
 
 (define (command-list lst proc)
@@ -44,7 +43,7 @@
     (lambda (e) (list (path-swap-extension e "scm") proc))
     lst))
 
-(define (make-src path)
+(define (make-lib path)
   (let ((name (sys-basename (path-sans-extension path))))
   (display
     (tree->string
@@ -53,10 +52,9 @@
         `(
           ,(string-append "(define-module " name)
           "  )"
-          ,(string-append "(select-module " name ")")
           ))))))
 
-(define (make-src-cli path)
+(define (make-lib-cli path)
   (let ((name (sys-basename (sys-dirname path))))
     (display
       (tree->string
@@ -94,7 +92,7 @@
             ""
             ))))))
 
-(define (make-src-commands path)
+(define (make-lib-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".commands")))
     (display
@@ -114,7 +112,7 @@
           "\n"
           `("#!/usr/bin/env gosh"
             ""
-            "(add-load-path \"../src\" :relative)"
+            "(add-load-path \"../lib\" :relative)"
             ,(string-append "(use " name ".cli :prefix cli:)")
             ""
             "(define (main args)"

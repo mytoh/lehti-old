@@ -12,4 +12,3 @@
     lehti.commands.generate
     )
   )
-(select-module lehti.commands)
