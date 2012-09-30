@@ -15,16 +15,16 @@
 (define (dir-spec name cmds)
   `(,name
      ((bin ((,name ,make-bin)))
-      (lib
-        ((,(path-swap-extension name "scm") ,make-lib)
-         (,name ((cli.scm ,make-lib-cli)
+      (src
+        ((,name ((core.scm ,make-src-core)
+                 (cli.scm ,make-src-cli)
                  (test ((test.scm)))
                  (commands ,(if (null? cmds)
-                              (command-list '("help") make-lib-commands-list)
-                              (command-list cmds make-lib-commands-list)))
-                 (commands.scm ,make-lib-commands))))))))
+                              (command-list '("help") make-src-commands-list)
+                              (command-list cmds make-src-commands-list)))
+                 (commands.scm ,make-src-commands))))))))
 
-(define (make-lib-commands-list path)
+(define (make-src-commands-list path)
   (let* ((cmd (sys-basename path))
          (name (sys-basename (sys-dirname (sys-dirname path))))
          (module (string-append name ".commands." cmd)))
@@ -41,16 +41,17 @@
     (lambda (e) (list (path-swap-extension e "scm") proc))
     lst))
 
-(define (make-lib path)
-  (let ((name (sys-basename (path-sans-extension path))))
+(define (make-src-core path)
+  (let* ((name (sys-basename (sys-dirname path)))
+        (module (string-append name ".core")))
     (display
       (tree->string
         (intersperse
           "\n"
-          `(,(string-append "(define-module " name)
+          `(,(string-append "(define-module " module)
             "  )"))))))
 
-(define (make-lib-cli path)
+(define (make-src-cli path)
   (let ((name (sys-basename (sys-dirname path))))
     (display
       (tree->string
@@ -86,7 +87,7 @@
             "        (_ (exit 0))))))"
             ""))))))
 
-(define (make-lib-commands path)
+(define (make-src-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".commands")))
     (display
@@ -105,7 +106,7 @@
           "\n"
           `("#!/usr/bin/env gosh"
             ""
-            "(add-load-path \"../lib\" :relative)"
+            "(add-load-path \"../src\" :relative)"
             ,(string-append "(use " name ".cli :prefix cli:)")
             ""
             "(define (main args)"
@@ -115,7 +116,7 @@
 
 (define (message name)
   (print
-    (string-append "created app " name)))
+    (string-append "created new app in: " name)))
 
 (define (file->executable name)
   (let ((path (build-path (current-directory)
@@ -138,6 +139,5 @@
           (current-directory)
           (dir-spec name cmds))
         (file->executable name)
-        (print "initializing git")
         (git-init name)))))
 
