@@ -2,6 +2,7 @@
 (define-module lehti.väri
   (export colour-string)
   (use srfi-1)
+  (use srfi-13)
   (use gauche.process)
   (use gauche.parseopt)
   (use util.match)

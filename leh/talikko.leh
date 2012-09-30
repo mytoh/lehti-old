@@ -11,6 +11,6 @@
    (run-process `(chmod +x ,(build-path *lehti-dist-directory* "talikko/bin/talikko")) :wait #t)
 
    ;; library sources
-   (copy-directory* (build-path *lehti-cache-directory* "talikko/lib")
-                    (build-path *lehti-dist-directory* "talikko/lib"))
+   (copy-directory* (build-path *lehti-cache-directory* "talikko/src")
+                    (build-path *lehti-dist-directory* "talikko/src"))
    ))

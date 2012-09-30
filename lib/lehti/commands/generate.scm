@@ -4,7 +4,7 @@
 
 (define-module lehti.commands.generate
   (export generate)
-  (use lehti.env)
+  (use lehti)
   (use file.util)
   (use util.list)
   (use text.tree)
@@ -15,28 +15,26 @@
 (define (dir-spec name cmds)
   `(,name
      ((bin ((,name ,make-bin)))
-      (spec ((,(path-swap-extension name "spec.scm"))))
       (lib
         ((,(path-swap-extension name "scm") ,make-lib)
-         (,name (("cli.scm" ,make-lib-cli)
+         (,name ((cli.scm ,make-lib-cli)
+                 (test ((test.scm)))
                  (commands ,(if (null? cmds)
                               (command-list '("help") make-lib-commands-list)
                               (command-list cmds make-lib-commands-list)))
-                 ("commands.scm" ,make-lib-commands))))))))
+                 (commands.scm ,make-lib-commands))))))))
 
 (define (make-lib-commands-list path)
   (let* ((cmd (sys-basename path))
-        (name (sys-basename (sys-dirname (sys-dirname path))))
-        (module (string-append name ".commands." cmd)))
-  (display
-    (tree->string
-      (intersperse
-        "\n"
-        `(
-          ,(string-append "(define-module " module)
-          "  )"
-          ,(string-append "(select-module " name ")")
-          ))))))
+         (name (sys-basename (sys-dirname (sys-dirname path))))
+         (module (string-append name ".commands." cmd)))
+    (display
+      (tree->string
+        (intersperse
+          "\n"
+          `(,(string-append "(define-module " module)
+            "  )"
+            ,(string-append "(select-module " name ")")))))))
 
 (define (command-list lst proc)
   (map
@@ -45,14 +43,12 @@
 
 (define (make-lib path)
   (let ((name (sys-basename (path-sans-extension path))))
-  (display
-    (tree->string
-      (intersperse
-        "\n"
-        `(
-          ,(string-append "(define-module " name)
-          "  )"
-          ))))))
+    (display
+      (tree->string
+        (intersperse
+          "\n"
+          `(,(string-append "(define-module " name)
+            "  )"))))))
 
 (define (make-lib-cli path)
   (let ((name (sys-basename (sys-dirname path))))
@@ -60,8 +56,7 @@
       (tree->string
         (intersperse
           "\n"
-          `(
-            ,(string-append "(define-module " name ".cli")
+          `(,(string-append "(define-module " name ".cli")
             "  (export runner)"
             "  (use gauche.parseopt)"
             "  (use util.match)"
@@ -89,8 +84,7 @@
             "        (\"command\""
             "         (print-commands))"
             "        (_ (exit 0))))))"
-            ""
-            ))))))
+            ""))))))
 
 (define (make-lib-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
@@ -101,8 +95,7 @@
           "\n"
           `(,(string-append "(define-module " module)
              "  )"
-             ,(string-append "(select-module " module ")")
-             ))))))
+             ,(string-append "(select-module " module ")")))))))
 
 (define (make-bin path)
   (let ((name (sys-basename path)))
@@ -127,25 +120,24 @@
 (define (file->executable name)
   (let ((path (build-path (current-directory)
                           name "bin" name)))
-    (run-process `(chmod +x ,path) :wait #t))
-  )
+    (run-process `(chmod +x ,path) :wait #t)))
 
 (define (git-init dir)
   (current-directory dir)
-  (run-process '(git init) :wait #t)
-  )
+  (run-process '(git init) :wait #t))
 
 (define (generate args)
   (let ((name (cadr args))
         (cmds (cddr args)))
-  (cond
-    ((file-exists? name)
-     (exit 1 "directory ~a exists!" name))
-    (else
-      (message name)
-      (create-directory-tree
-        (current-directory)
-        (dir-spec name cmds))
-      (file->executable name)
-      (print "initializing git")
-      (git-init name)))))
+    (cond
+      ((file-exists? name)
+       (exit 1 "directory ~a exists!" name))
+      (else
+        (message name)
+        (create-directory-tree
+          (current-directory)
+          (dir-spec name cmds))
+        (file->executable name)
+        (print "initializing git")
+        (git-init name)))))
+

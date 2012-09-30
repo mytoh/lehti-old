@@ -10,6 +10,6 @@
    (run-process `(chmod +x ,(build-path *lehti-dist-directory* "nopea/bin/nopea")) :wait #t)
 
    ;; library sources
-   (copy-directory* (build-path *lehti-cache-directory* "nopea/lib")
-                    (build-path *lehti-dist-directory* "nopea/lib"))
+   (copy-directory* (build-path *lehti-cache-directory* "nopea/src")
+                    (build-path *lehti-dist-directory* "nopea/src"))
    ))

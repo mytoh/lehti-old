@@ -30,14 +30,13 @@
 
 (define (make-src-load-path)
   (remove null?
-          (map
-            (lambda (e)
-              (let ((lib-path
-                      (build-path e "src")))
-                (if (file-exists? lib-path)
-                  lib-path
-                  '())))
-            (directory-list *lehti-dist-directory* :add-path? #t :children? #t))))
+          (map (lambda (e)
+                 (let ((src-path
+                         (build-path e "src")))
+                   (if (file-exists? src-path)
+                     src-path
+                     '())))
+               (directory-list *lehti-dist-directory* :add-path? #t :children? #t))))
 
 (define (make-dynload-path)
   (append

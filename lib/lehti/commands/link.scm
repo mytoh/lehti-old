@@ -2,6 +2,7 @@
 
 (define-module lehti.commands.link
   (export link)
+  (use lehti)
   (use gauche.parseopt)
   (use gauche.process)
   (use rfc.uri)
