@@ -11,5 +11,8 @@
 
 
 (define (uninstall package)
-  (remove-directory* (build-path *lehti-dist-directory* package))
-  )
+  (cond
+    ((not (file-is-directory? package))
+     (sys-remove (build-path *lehti-dist-directory* package)))
+    ((file-is-directory? package)
+     (remove-directory* (build-path *lehti-dist-directory* package)))))

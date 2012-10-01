@@ -49,7 +49,8 @@
         (intersperse
           "\n"
           `(,(string-append "(define-module " module)
-            "  )"))))))
+            "  )"
+            ,(string-append "(select-module " name ")")))))))
 
 (define (make-src-cli path)
   (let ((name (sys-basename (sys-dirname path))))
@@ -62,7 +63,7 @@
             "  (use gauche.parseopt)"
             "  (use util.match)"
             "  (use file.util)"
-            ,(string-append "  (use " name ")")
+            ,(string-append "  (use " name ".core)")
             ,(string-append "  (use " name ".commands)")
             "  )"
             ,(string-append "(select-module " name ".cli)")
