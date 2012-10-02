@@ -4,13 +4,11 @@
 (url  "git://github.com/mytoh/lista")
 (install
   (
-   ;; bin
-   (make-directory* (build-path *lehti-dist-directory* "lista" ))
-   (copy-directory* (build-path *lehti-cache-directory* "lista/bin")
-                    (build-path *lehti-dist-directory* "lista/bin"))
-   (run-process `(chmod +x ,(build-path *lehti-dist-directory* "lista/bin/lista")) :wait #t)
-
+    (run-process `(gauche-install -T ,(build-path *lehti-dist-directory* "lista")
+                                  "bin/lista")
+                 :wait #t)
    ;; library sources
    (copy-directory* (build-path *lehti-cache-directory* "lista/src")
                     (build-path *lehti-dist-directory* "lista/src"))
-   ))
+)
+)

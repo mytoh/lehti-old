@@ -8,6 +8,8 @@
   (use file.util)
   (use util.list)
   (use text.tree)
+  (use util.match)
+  (use gauche.parseopt)
   (use gauche.process))
 (select-module lehti.commands.generate)
 
@@ -33,8 +35,11 @@
         (intersperse
           "\n"
           `(,(string-append "(define-module " module)
-            "  )"
-            ,(string-append "(select-module " name ")")))))))
+             "  (use gauche.parseopt)"
+             "  (use gauche.process)"
+             "  (use util.match)"
+             "  )"
+             ,(string-append "(select-module " name ")")))))))
 
 (define (command-list lst proc)
   (map
@@ -43,14 +48,14 @@
 
 (define (make-src-core path)
   (let* ((name (sys-basename (sys-dirname path)))
-        (module (string-append name ".core")))
+         (module (string-append name ".core")))
     (display
       (tree->string
         (intersperse
           "\n"
           `(,(string-append "(define-module " module)
-            "  )"
-            ,(string-append "(select-module " name ")")))))))
+             "  )"
+             ,(string-append "(select-module " name ")")))))))
 
 (define (make-src-cli path)
   (let ((name (sys-basename (sys-dirname path))))
@@ -59,34 +64,34 @@
         (intersperse
           "\n"
           `(,(string-append "(define-module " name ".cli")
-            "  (export runner)"
-            "  (use gauche.parseopt)"
-            "  (use util.match)"
-            "  (use file.util)"
-            ,(string-append "  (use " name ".core)")
-            ,(string-append "  (use " name ".commands)")
-            "  )"
-            ,(string-append "(select-module " name ".cli)")
-            ""
-            "(define runner"
-            "  (lambda (args)"
-            "    (let-args (cdr args)"
-            "      ((#f \"h|help\" (exit 0))"
-            "       . rest)"
-            "      (when (null-list? rest)"
-            "        (exit 0))"
-            "      (match (car  rest)"
-            "        ;; actions"
-            "        (\"install\""
-            "         (install (cadr rest)))"
-            "        ((or \"uninstall\" \"rm\")"
-            "         (uninstall (cadr rest)))"
-            "        (\"setup\""
-            "         (setup (cadr rest)))"
-            "        (\"command\""
-            "         (print-commands))"
-            "        (_ (exit 0))))))"
-            ""))))))
+             "  (export runner)"
+             "  (use gauche.parseopt)"
+             "  (use util.match)"
+             "  (use file.util)"
+             ,(string-append "  (use " name ".core)")
+             ,(string-append "  (use " name ".commands)")
+             "  )"
+             ,(string-append "(select-module " name ".cli)")
+             ""
+             "(define runner"
+             "  (lambda (args)"
+             "    (let-args (cdr args)"
+             "      ((#f \"h|help\" (exit 0))"
+             "       . rest)"
+             "      (when (null-list? rest)"
+             "        (exit 0))"
+             "      (match (car  rest)"
+             "        ;; actions"
+             "        (\"install\""
+             "         (install (cadr rest)))"
+             "        ((or \"uninstall\" \"rm\")"
+             "         (uninstall (cadr rest)))"
+             "        (\"setup\""
+             "         (setup (cadr rest)))"
+             "        (\"command\""
+             "         (print-commands))"
+             "        (_ (exit 0))))))"
+             ""))))))
 
 (define (make-src-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
@@ -128,9 +133,10 @@
   (current-directory dir)
   (run-process '(git init) :wait #t))
 
-(define (generate args)
-  (let ((name (cadr args))
-        (cmds (cddr args)))
+
+(define (project args)
+  (let ((name (car args))
+        (cmds (cdr args)))
     (cond
       ((file-exists? name)
        (exit 1 "directory ~a exists!" name))
@@ -140,5 +146,17 @@
           (current-directory)
           (dir-spec name cmds))
         (file->executable name)
-        (git-init name)))))
+        (git-init name))))
+  )
+
+(define (help status)
+  (exit status "lehti generate: ~a <command> <package-name>\n" "lehti"))
+
+(define (generate args)
+  (match (cadr args)
+    ("project"
+     (project (cddr args)))))
+
+
+
 

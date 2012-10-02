@@ -3,10 +3,10 @@
 (url  "git://github.com/mytoh/kehote")
 (install
   (
-   (make-directory* (build-path *lehti-dist-directory* "kehote" ))
-   (copy-directory* (build-path *lehti-cache-directory* "kehote/bin")
-                    (build-path *lehti-dist-directory* "kehote/bin"))
+    (run-process `(gauche-install -T ,(build-path *lehti-dist-directory* "kehote")
+                                  "bin/kehote")
+                 :wait #t)
+   ;; library sources
    (copy-directory* (build-path *lehti-cache-directory* "kehote/src")
                     (build-path *lehti-dist-directory* "kehote/src"))
-   (run-process `(chmod +x ,(build-path *lehti-dist-directory* "kehote/bin/kehote")) :wait #t)
-   ))
+))
