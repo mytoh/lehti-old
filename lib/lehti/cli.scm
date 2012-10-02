@@ -25,7 +25,7 @@
         (usage 0))
       (match (car  rest)
         ;; actions
-        ((or "install" "ase")
+        ((or "install" "i" "ase")
          (install (cadr rest)))
         ((or "uninstall" "rm")
          (uninstall (cadr rest)))
