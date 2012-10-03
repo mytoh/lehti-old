@@ -12,7 +12,7 @@ if [ -d $LEHTI_DIR/dist ]
 then
   # path
   export LEHTI_PATH="$(lehti setup path)"
-  export PATH="${LEHTI_DIR}/bin:${LEHTI_PATH}${PATH}"
+  export PATH="${LEHTI_PATH}:${PATH}"
 
   # load path
   export LEHTI_LOAD_PATH="$(lehti setup load-path)"
