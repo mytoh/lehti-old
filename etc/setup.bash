@@ -3,6 +3,7 @@
 export LEHTI_DIR="${HOME}/.lehti"
 export LEHTI_LIB_DIR="${LEHTI_DIR}/lib"
 export GAUCHE_LOAD_PATH="${LEHTI_LIB_DIR}:${GAUCHE_LOAD_PATH}"
+export PATH="${LEHTI_DIR}/bin:${PATH}"
 
 # path
 export LEHTI_PATH="$(lehti setup path)"
