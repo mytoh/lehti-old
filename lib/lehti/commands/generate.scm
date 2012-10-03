@@ -16,7 +16,9 @@
 
 (define (dir-spec name cmds)
   `(,name
-     ((bin ((,name ,make-bin)))
+     (readme.rst
+      ,(path-swap-extension name "leh")
+      (bin ((,name ,make-bin)))
       (src
         ((,name ((core.scm ,make-src-core)
                  (cli.scm ,make-src-cli)
@@ -27,7 +29,7 @@
                  (commands.scm ,make-src-commands))))))))
 
 (define (make-src-commands-list path)
-  (let* ((cmd (sys-basename path))
+  (let* ((cmd (sys-basename (path-sans-extension path)))
          (name (sys-basename (sys-dirname (sys-dirname path))))
          (module (string-append name ".commands." cmd)))
     (display
@@ -39,7 +41,7 @@
              "  (use gauche.process)"
              "  (use util.match)"
              "  )"
-             ,(string-append "(select-module " name ")")))))))
+             ,(string-append "(select-module " module ")")))))))
 
 (define (command-list lst proc)
   (map
@@ -55,7 +57,7 @@
           "\n"
           `(,(string-append "(define-module " module)
              "  )"
-             ,(string-append "(select-module " name ")")))))))
+             ,(string-append "(select-module " module ")")))))))
 
 (define (make-src-cli path)
   (let ((name (sys-basename (sys-dirname path))))
@@ -82,14 +84,8 @@
              "        (exit 0))"
              "      (match (car  rest)"
              "        ;; actions"
-             "        (\"install\""
-             "         (install (cadr rest)))"
-             "        ((or \"uninstall\" \"rm\")"
-             "         (uninstall (cadr rest)))"
-             "        (\"setup\""
-             "         (setup (cadr rest)))"
-             "        (\"command\""
-             "         (print-commands))"
+             "        (\"help\""
+             "         (help))"
              "        (_ (exit 0))))))"
              ""))))))
 

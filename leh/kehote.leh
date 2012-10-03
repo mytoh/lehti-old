@@ -1,12 +1,3 @@
 
 
 (url  "git://github.com/mytoh/kehote")
-(install
-  (
-    (run-process `(gauche-install -T ,(build-path *lehti-dist-directory* "kehote")
-                                  "bin/kehote")
-                 :wait #t)
-   ;; library sources
-   (copy-directory* (build-path *lehti-cache-directory* "kehote/src")
-                    (build-path *lehti-dist-directory* "kehote/src"))
-))

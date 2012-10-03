@@ -1,15 +1,3 @@
 
 
 (url  "git://github.com/mytoh/piste")
-(install
-  (
-    (run-process `(gauche-install -T ,(build-path *lehti-dist-directory* "piste")
-                                  "bin/piste")
-                 :wait #t)
-   ;; library sources
-   (copy-directory* (build-path *lehti-cache-directory* "piste/src")
-                    (build-path *lehti-dist-directory* "piste/src"))
-   ;; setting files
-   (copy-directory* (build-path *lehti-cache-directory* "piste/etc")
-                    (build-path *lehti-dist-directory* "piste/etc"))
-))
