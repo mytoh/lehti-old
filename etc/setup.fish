@@ -1,7 +1,7 @@
 
 # setup 
 set -x LEHTI_DIR $HOME/.lehti
-set -x LEHTI_LIB_DIR $LEHTI_DIR/lib
+set -x LEHTI_LIB_DIR $LEHTI_DIR/src
 set -x GAUCHE_LOAD_PATH $LEHTI_LIB_DIR $GAUCHE_LOAD_PATH
 set -x PATH $LEHTI_DIR/bin $PATH
 

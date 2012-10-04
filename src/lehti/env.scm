@@ -6,19 +6,23 @@
     *lehti-directory*
     *lehti-dist-directory*
     *lehti-leh-file-directory*)
+  (use gauche.parameter)
   (use file.util))
 (select-module lehti.env)
 
 (define *lehti-directory*
-  (sys-getenv "LEHTI_DIR")
-  )
+  (make-parameter
+    (sys-getenv "LEHTI_DIR")))
 
 (define *lehti-dist-directory*
-  (build-path  *lehti-directory* "dist"))
+  (make-parameter
+    (build-path  ( *lehti-directory* ) "dist")))
 
 (define *lehti-cache-directory*
-  (build-path *lehti-directory*
-              "cache"))
+  (make-parameter
+    (build-path ( *lehti-directory* )
+                "cache")))
 
 (define *lehti-leh-file-directory*
-  (build-path *lehti-directory* "leh"))
+  (make-parameter
+    (build-path ( *lehti-directory* ) "leh")))

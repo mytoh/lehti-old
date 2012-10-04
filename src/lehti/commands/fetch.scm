@@ -12,7 +12,7 @@
 
 (define fetch
   (lambda (url package)
-    (let ((tmpdir *lehti-cache-directory*))
+    (let ((tmpdir ( *lehti-cache-directory* )))
       (make-directory* tmpdir)
       (current-directory tmpdir)
       (cond

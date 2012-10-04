@@ -25,7 +25,7 @@
                      (build-path e "lib"))
                     (else
                       '()))))
-              (directory-list *lehti-dist-directory* :add-path? #t :children? #t)))
+              (directory-list ( *lehti-dist-directory* ) :add-path? #t :children? #t)))
     (make-src-load-path)))
 
 (define (make-src-load-path)
@@ -36,12 +36,12 @@
                    (if (file-exists? src-path)
                      src-path
                      '())))
-               (directory-list *lehti-dist-directory* :add-path? #t :children? #t))))
+               (directory-list ( *lehti-dist-directory* ) :add-path? #t :children? #t))))
 
 (define (make-dynload-path)
   (append
     (map (lambda (e) (build-path e "lib/gauche-0.9/site" (gauche-architecture)))
-         (directory-list *lehti-dist-directory*
+         (directory-list ( *lehti-dist-directory* )
                          :add-path? #t
                          :children? #t
                          :filter-add-path? #t
@@ -57,7 +57,7 @@
 (define (make-path)
   (map
     (lambda (e) (build-path e "bin"))
-    (directory-list *lehti-dist-directory*
+    (directory-list ( *lehti-dist-directory* )
                     :filter-add-path? #t
                     :filter (lambda (e)
                               (let ((bin-path

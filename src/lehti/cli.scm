@@ -1,3 +1,4 @@
+
 (define-module lehti.cli
   (export runner)
   (use gauche.parseopt)
@@ -26,11 +27,15 @@
       (match (car  rest)
         ;; actions
         ((or "install" "i" "ase")
-         (install (cadr rest)))
+         (install (cdr rest)))
         ((or "uninstall" "rm")
-         (uninstall (cadr rest)))
+         (uninstall (cdr rest)))
+        ((or "re" "reinstall")
+         (reinstall (cdr rest)))
         ("setup"
          (setup (cadr rest)))
+        ((or "list" "ls")
+         (list-packages))
         ("command"
          (print-commands))
         ((or "generate" "g")
