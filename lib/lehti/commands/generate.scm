@@ -18,15 +18,22 @@
   `(,name
      (readme.rst
       ,(path-swap-extension name "leh")
-      (bin ((,name ,make-bin)))
+      (bin ((,name ,(gen-file 'bin))))
       (src
-        ((,name ((core.scm ,make-src-core)
-                 (cli.scm ,make-src-cli)
+        ((,name ((core.scm ,(gen-file 'src-core))
+                 (cli.scm ,(gen-file 'src-cli))
                  (test ((test.scm)))
                  (commands ,(if (null? cmds)
                               (command-list '("help") make-src-commands-list)
                               (command-list cmds make-src-commands-list)))
-                 (commands.scm ,make-src-commands))))))))
+                 (commands.scm ,(gen-file 'src-commands)))))))))
+
+(define (gen-file command)
+  (match command
+    ('bin gen-bin)
+    ('src-commands gen-src-commands)
+    ('src-core gen-src-core)
+    ('src-cli gen-src-cli)))
 
 (define (make-src-commands-list path)
   (let* ((cmd (sys-basename (path-sans-extension path)))
@@ -40,6 +47,7 @@
              "  (use gauche.parseopt)"
              "  (use gauche.process)"
              "  (use util.match)"
+             "  (use file.util)"
              "  )"
              ,(string-append "(select-module " module ")")))))))
 
@@ -48,7 +56,7 @@
     (lambda (e) (list (path-swap-extension e "scm") proc))
     lst))
 
-(define (make-src-core path)
+(define (gen-src-core path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".core")))
     (display
@@ -59,13 +67,14 @@
              "  )"
              ,(string-append "(select-module " module ")")))))))
 
-(define (make-src-cli path)
-  (let ((name (sys-basename (sys-dirname path))))
+(define (gen-src-cli path)
+  (let* ((name (sys-basename (sys-dirname path)))
+        (module (string-append name ".cli")))
     (display
       (tree->string
         (intersperse
           "\n"
-          `(,(string-append "(define-module " name ".cli")
+          `(,(string-append "(define-module " module)
              "  (export runner)"
              "  (use gauche.parseopt)"
              "  (use util.match)"
@@ -73,7 +82,7 @@
              ,(string-append "  (use " name ".core)")
              ,(string-append "  (use " name ".commands)")
              "  )"
-             ,(string-append "(select-module " name ".cli)")
+             ,(string-append "(select-module " module ")")
              ""
              "(define runner"
              "  (lambda (args)"
@@ -89,7 +98,7 @@
              "        (_ (exit 0))))))"
              ""))))))
 
-(define (make-src-commands path)
+(define (gen-src-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".commands")))
     (display
@@ -100,7 +109,7 @@
              "  )"
              ,(string-append "(select-module " module ")")))))))
 
-(define (make-bin path)
+(define (gen-bin path)
   (let ((name (sys-basename path)))
     (display
       (tree->string
@@ -152,7 +161,5 @@
   (match (cadr args)
     ("project"
      (project (cddr args)))))
-
-
 
 
