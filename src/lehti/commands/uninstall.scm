@@ -16,7 +16,7 @@
       (let ((pac (build-path (*lehti-dist-directory* ) package)))
         (cond
           ((file-is-symlink? pac)
-           (sys-remove pac))
+           (sys-unlink pac))
           ((not (file-is-directory? pac))
            (sys-remove pac))
           ((file-is-directory? pac)

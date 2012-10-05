@@ -20,7 +20,8 @@
       ,(path-swap-extension name "leh")
       (bin ((,name ,(gen-file 'bin))))
       (src
-        ((,name ((core.scm ,(gen-file 'src-core))
+        ((,(path-swap-extension name "scm") ,(gen-file 'src))
+         (,name ((core.scm ,(gen-file 'src-core))
                  (cli.scm ,(gen-file 'src-cli))
                  (test ((test.scm)))
                  (commands ,(if (null? cmds)
@@ -31,9 +32,11 @@
 (define (gen-file command)
   (match command
     ('bin gen-bin)
+    ('src gen-src)
     ('src-commands gen-src-commands)
     ('src-core gen-src-core)
     ('src-cli gen-src-cli)))
+
 
 (define (make-src-commands-list path)
   (let* ((cmd (sys-basename (path-sans-extension path)))
@@ -55,6 +58,18 @@
   (map
     (lambda (e) (list (path-swap-extension e "scm") proc))
     lst))
+
+(define (gen-src path)
+  (let* ((module (path-sans-extension (sys-basename path)))
+         )
+    (display
+      (tree->string
+        (intersperse
+          "\n"
+          `(,(string-append "(define-module " module)
+             ,(string-append "(extend " module ".core)")
+             "  )"
+             ))))))
 
 (define (gen-src-core path)
   (let* ((name (sys-basename (sys-dirname path)))

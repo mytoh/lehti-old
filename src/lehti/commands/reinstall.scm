@@ -14,6 +14,6 @@
 (define (reinstall packages)
   (for-each
     (lambda (package)
-      (uninstall package)
-      (install package))
+      (uninstall (list package))
+      (install (list package)))
     packages))
