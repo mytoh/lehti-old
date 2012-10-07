@@ -16,14 +16,13 @@
 
 (define (dir-spec name cmds)
   `(,name
-     (readme.rst
+     ((readme.rst ,(gen-file 'readme-rst))
       ,(path-swap-extension name "leh")
       (bin ((,name ,(gen-file 'bin))))
       (src
         ((,(path-swap-extension name "scm") ,(gen-file 'src))
          (,name ((core.scm ,(gen-file 'src-core))
                  (cli.scm ,(gen-file 'src-cli))
-                 (test ((test.scm)))
                  (commands ,(if (null? cmds)
                               (command-list '("help") make-src-commands-list)
                               (command-list cmds make-src-commands-list)))
@@ -31,6 +30,7 @@
 
 (define (gen-file command)
   (match command
+    ('readme-rst gen-readme-rst)
     ('bin gen-bin)
     ('src gen-src)
     ('src-commands gen-src-commands)
@@ -70,6 +70,20 @@
              ,(string-append "(extend " module ".core)")
              "  )"
              ))))))
+
+(define (gen-readme-rst path)
+  (let* ((module (sys-basename (sys-dirname path))))
+ (display
+      (tree->string
+        (string-join
+          `(,module
+             "======="
+             )
+          "\n"
+          'suffix)))
+    )
+  )
+
 
 (define (gen-src-core path)
   (let* ((name (sys-basename (sys-dirname path)))

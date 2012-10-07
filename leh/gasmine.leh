@@ -1,6 +1,6 @@
 
 
-(url  "git://github.com/kana/gauche-test-gasmine")
+(url  "git://github.com/mytoh/gauche-test-gasmine")
 (install
   ( (run-process '(./DIST gen) :wait #t)
    (run-process `(./configure ,(string-append "--prefix="
