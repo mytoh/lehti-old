@@ -4,13 +4,13 @@ lehti
 install gauche library and scripts
 
 install
-=======
+-------
 ::
 
     git clone git://github.com/mytoh/lehti ~/.lehti
 
 setting
-=======
+-------
 put these to your **.bashrc**
 ::
 
