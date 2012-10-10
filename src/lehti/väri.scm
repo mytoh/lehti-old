@@ -1,14 +1,18 @@
 
+;; -*- coding: utf-8 -*-
+
 (define-module lehti.väri
-  (export colour-string)
-  (use srfi-1)
-  (use srfi-13)
+  (export
+    colour-string
+    )
   (use gauche.process)
-  (use gauche.parseopt)
-  (use util.match)
-  (use file.util)
-   )
+  (require-extension
+    (srfi 13))
+  )
+
 (select-module lehti.väri)
+
+
 
 (define (colour-string colour-number s)
   ;; take number, string -> return string

@@ -12,9 +12,9 @@
 (select-module lehti.commands.link)
  (define link
   (lambda (package)
-    (let* ((package-directory (build-path ( *lehti-dist-directory* )
+    (let* ((package-directory (build-path (*lehti-dist-directory* )
                                 package)))
-    (current-directory ( *lehti-directory* ))
+    (current-directory (*lehti-directory* ))
 
     (newline)
     (display (string-append "[38;5;38m" ":: " "[0m"))
@@ -29,7 +29,7 @@
                       (string-append
                           "."
                         (string-scan p
-                           ( *lehti-directory* )
+                           (*lehti-directory* )
                           'after)))
                   (string-split
                       (sys-dirname
@@ -60,8 +60,10 @@
            (begin
              (print (string-append
                         "linking file "
-                      (colour-string 163
-                        (cadr  p))))
+                      (colour-string
+                        163
+                        (cadr  p)
+                        )))
              (sys-symlink (car p)
                (cadr p)))))
        file-list)))))
