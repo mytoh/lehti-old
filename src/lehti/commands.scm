@@ -12,5 +12,7 @@
     lehti.commands.link
     lehti.commands.command
     lehti.commands.generate
+    lehti.commands.execute
+    lehti.commands.console
     )
   )

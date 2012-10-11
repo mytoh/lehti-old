@@ -40,6 +40,10 @@
          (print-commands))
         ((or "generate" "g")
          (generate rest))
+        ((or "exec" "execute" "e")
+         (execute (cdr rest)))
+        ((or "console" "c")
+         (console ))
         (_ (usage 0))))))
 
 

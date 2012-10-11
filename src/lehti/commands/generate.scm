@@ -19,26 +19,26 @@
      ((readme.rst ,(gen-file 'readme-rst))
       ,(path-swap-extension name "leh")
       (bin ((,name ,(gen-file 'bin))))
-      (src
-        ((,(path-swap-extension name "scm") ,(gen-file 'src))
-         (,name ((core.scm ,(gen-file 'src-core))
-                 (cli.scm ,(gen-file 'src-cli))
+      (lib
+        ((,(path-swap-extension name "scm") ,(gen-file 'lib))
+         (,name ((core.scm ,(gen-file 'lib-core))
+                 (cli.scm ,(gen-file 'lib-cli))
                  (commands ,(if (null? cmds)
-                              (command-list '("help") make-src-commands-list)
-                              (command-list cmds make-src-commands-list)))
-                 (commands.scm ,(gen-file 'src-commands)))))))))
+                              (command-list '("help") make-lib-commands-list)
+                              (command-list cmds make-lib-commands-list)))
+                 (commands.scm ,(gen-file 'lib-commands)))))))))
 
 (define (gen-file command)
   (match command
     ('readme-rst gen-readme-rst)
     ('bin gen-bin)
-    ('src gen-src)
-    ('src-commands gen-src-commands)
-    ('src-core gen-src-core)
-    ('src-cli gen-src-cli)))
+    ('lib gen-lib)
+    ('lib-commands gen-lib-commands)
+    ('lib-core gen-lib-core)
+    ('lib-cli gen-lib-cli)))
 
 
-(define (make-src-commands-list path)
+(define (make-lib-commands-list path)
   (let* ((cmd (sys-basename (path-sans-extension path)))
          (name (sys-basename (sys-dirname (sys-dirname path))))
          (module (string-append name ".commands." cmd)))
@@ -59,7 +59,7 @@
     (lambda (e) (list (path-swap-extension e "scm") proc))
     lst))
 
-(define (gen-src path)
+(define (gen-lib path)
   (let* ((module (path-sans-extension (sys-basename path)))
          )
     (display
@@ -85,7 +85,7 @@
   )
 
 
-(define (gen-src-core path)
+(define (gen-lib-core path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".core")))
     (display
@@ -96,7 +96,7 @@
              "  )"
              ,(string-append "(select-module " module ")")))))))
 
-(define (gen-src-cli path)
+(define (gen-lib-cli path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".cli")))
     (display
@@ -127,7 +127,7 @@
              "        (_ (exit 0))))))"
              ""))))))
 
-(define (gen-src-commands path)
+(define (gen-lib-commands path)
   (let* ((name (sys-basename (sys-dirname path)))
          (module (string-append name ".commands")))
     (display
@@ -146,7 +146,7 @@
           "\n"
           `("#!/usr/bin/env gosh"
             ""
-            "(add-load-path \"../src\" :relative)"
+            "(add-load-path \"../lib\" :relative)"
             ,(string-append "(use " name ".cli :prefix cli:)")
             ""
             "(define (main args)"
