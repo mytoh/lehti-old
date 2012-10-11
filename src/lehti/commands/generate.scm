@@ -73,7 +73,7 @@
 
 (define (gen-readme-rst path)
   (let* ((module (sys-basename (sys-dirname path))))
- (display
+    (display
       (tree->string
         (string-join
           `(,module
@@ -98,7 +98,7 @@
 
 (define (gen-src-cli path)
   (let* ((name (sys-basename (sys-dirname path)))
-        (module (string-append name ".cli")))
+         (module (string-append name ".cli")))
     (display
       (tree->string
         (intersperse

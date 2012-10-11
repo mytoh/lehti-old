@@ -3,7 +3,7 @@
 
 (define-module lehti.commands.install
   (export install)
-  (use lehti.env)
+  (use lehti)
   (use lehti.commands.fetch)
   (use file.util)
   (use gauche.process))
@@ -14,6 +14,9 @@
   (lambda (packages)
     (for-each
       (lambda (package)
+        (print (string-append
+                 "installing "
+                 (colour-string 12 package)))
         (let ((lehtifile (file->sexp-list (build-path (*lehti-leh-file-directory* )
                                                       (string-append package
                                                                      ".leh"))))

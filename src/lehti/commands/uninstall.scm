@@ -13,6 +13,9 @@
 (define (uninstall packages)
   (for-each
     (lambda (package)
+        (print (string-append
+                 "uninstalling "
+                 (colour-string 12 package)))
       (let ((pac (build-path (*lehti-dist-directory* ) package)))
         (cond
           ((file-is-symlink? pac)

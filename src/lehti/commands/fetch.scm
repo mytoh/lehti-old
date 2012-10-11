@@ -17,7 +17,7 @@
       (current-directory tmpdir)
       (cond
         ((url-is-git? url)
-         (run-process `(git clone ,url ,package) :wait #t))
+         (run-process `(git clone -q ,url ,package) :wait #t))
         (else
           exit)
         )
