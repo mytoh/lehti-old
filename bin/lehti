@@ -1,4 +1,5 @@
-#!/usr/bin/env gosh
+":"; exec gosh -- $0 "$@"
+
 ;; -*- coding: utf-8 -*-
 (use lehti.cli :prefix cli:)
 (use lehti)
