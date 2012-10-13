@@ -11,9 +11,22 @@
 (select-module lehti.commands.reinstall)
 
 
+
+
 (define (reinstall packages)
   (for-each
     (lambda (package)
-      (uninstall (list package))
-      (install (list package)))
+      (cond
+        ((package-is-installed? package)
+         (uninstall (list package))
+         (install (list package)))
+        ((package-is-available? package)
+          (print (string-append
+                   (colour-string 33 package)
+                   " not installed")))
+        (else
+          (print (string-append
+                   "package "
+                   (colour-string 12 package)
+                   " is not available")))))
     packages))

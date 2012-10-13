@@ -18,7 +18,7 @@
   `(,name
      ((readme.rst ,(gen-file 'readme-rst))
       ,(path-swap-extension name "leh")
-      (bin ((,name ,(gen-file 'bin))))
+      ; (bin ((,name ,(gen-file 'bin))))
       (lib
         ((,(path-swap-extension name "scm") ,(gen-file 'lib))
          (,name ((core.scm ,(gen-file 'lib-core))
