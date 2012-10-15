@@ -13,5 +13,6 @@
     lehti.commands.command
     lehti.commands.execute
     lehti.commands.console
+    lehti.commands.update
     )
   )
