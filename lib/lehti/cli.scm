@@ -44,6 +44,14 @@
          (update ))
         ((or "console" "c")
          (console ))
+        ("readme"
+         (readme (cadr rest)))
+        ((or "open" "o")
+         (open (cadr rest)))
+        ("edit"
+         (edit (cadr rest)))
+        ("clone"
+         (clone (cadr rest)))
         (_ (usage 0))))))
 
 

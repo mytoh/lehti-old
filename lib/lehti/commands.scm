@@ -14,5 +14,9 @@
     lehti.commands.execute
     lehti.commands.console
     lehti.commands.update
+    lehti.commands.readme
+    lehti.commands.open
+    lehti.commands.edit
+    lehti.commands.clone
     )
   )
