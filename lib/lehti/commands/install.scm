@@ -4,10 +4,31 @@
   (export install)
   (use lehti)
   (use lehti.commands.fetch)
+  (use text.tree)
   (use file.util)
   (use gauche.process))
 (select-module lehti.commands.install)
 
+
+
+(define (generate-bin-file name)
+  (if (file-exists? (build-path (*lehti-cache-directory*) name "bin"))
+    (call-with-output-file
+      (build-path (*lehti-directory*) "bin" name)
+      (lambda (out)
+        (display
+          (string-join
+              `( " \":\"; exec gosh -- $0 \"$@\""
+                 ";; -*- coding: utf-8 -*-"
+                 ""
+                 "(use lehti)"
+                 "(use file.util)"
+                 "" 
+                 ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
+                 ";; vim:filetype=scheme")
+              "\n"
+              'suffix)
+          out)))))
 
 (define install
   (lambda (packages)
@@ -38,7 +59,9 @@
                    (for-each
                      (lambda (c) (eval c (interaction-environment)))
                      (cadr install-commands))
-                   (remove-directory* cache-directory))
+                   (generate-bin-file package) 
+                   (remove-directory* cache-directory)
+                   )
                  (else
                    (current-directory (fetch url package))
                    (let ((cmd (cadr (assoc 'install (file->sexp-list (build-path cache-directory
@@ -46,12 +69,12 @@
                      (for-each
                        (lambda (c) (eval c (interaction-environment)))
                        cmd))
-                   (remove-directory* cache-directory))))))
+                   (generate-bin-file package)     
+                   (remove-directory* cache-directory)
+                   )))))
           (else
             (print (string-append
                      "package "
                      (colour-string 12 package)
-                     " is not available!")))
-          )
-        )
+                     " is not available!")))))
       packages)))

@@ -11,8 +11,6 @@
     lehti.commands.setup
     lehti.commands.link
     lehti.commands.command
-    lehti.commands.execute
-    lehti.commands.console
     lehti.commands.update
     lehti.commands.readme
     lehti.commands.open

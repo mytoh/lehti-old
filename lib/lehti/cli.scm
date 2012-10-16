@@ -38,12 +38,8 @@
          (list-packages))
         ("command"
          (print-commands))
-        ((or "exec" "execute" "e")
-         (execute (cdr rest)))
         ((or "up" "update" )
          (update ))
-        ((or "console" "c")
-         (console ))
         ("readme"
          (readme (cadr rest)))
         ((or "open" "o")
