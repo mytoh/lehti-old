@@ -5,7 +5,6 @@
   (export update)
   (use lehti.env)
   (use file.util)
-  (use kirjain)
   (use gauche.process))
 (select-module lehti.commands.update)
 
