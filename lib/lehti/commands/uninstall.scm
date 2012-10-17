@@ -23,5 +23,7 @@
           ((not (file-is-directory? pac))
            (sys-remove pac))
           ((file-is-directory? pac)
-           (remove-directory* pac)))))
+           (remove-directory* pac)))
+        (if (file-exists? (build-path (*lehti-directory*) "bin" package))
+          (sys-remove (build-path (*lehti-directory*) "bin" package)))))
     packages))

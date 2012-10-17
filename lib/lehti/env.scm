@@ -5,6 +5,7 @@
     *lehti-cache-directory*
     *lehti-directory*
     *lehti-dist-directory*
+    *lehti-bin-directory*
     *lehti-leh-file-directory*)
   (use gauche.parameter)
   (use file.util))
@@ -26,3 +27,8 @@
 (define *lehti-leh-file-directory*
   (make-parameter
     (build-path ( *lehti-directory* ) "leh")))
+
+(define *lehti-bin-directory*
+  (make-parameter
+    (build-path  ( *lehti-directory* ) "bin")))
+

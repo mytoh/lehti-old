@@ -18,17 +18,19 @@
       (lambda (out)
         (display
           (string-join
-              `( " \":\"; exec gosh -- $0 \"$@\""
-                 ";; -*- coding: utf-8 -*-"
-                 ""
-                 "(use lehti)"
-                 "(use file.util)"
-                 "" 
-                 ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
-                 ";; vim:filetype=scheme")
-              "\n"
-              'suffix)
-          out)))))
+            `( " \":\"; exec gosh -- $0 \"$@\""
+               ";; -*- coding: utf-8 -*-"
+               ""
+               "(use lehti)"
+               "(use file.util)"
+               "" 
+               ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
+               ";; vim:filetype=scheme")
+            "\n"
+            'suffix)
+          out)
+        (run-process `(chmod +x ,(build-path (*lehti-directory*) "bin" name))
+                     :wait #t )))))
 
 (define install
   (lambda (packages)

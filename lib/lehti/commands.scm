@@ -16,5 +16,8 @@
     lehti.commands.open
     lehti.commands.edit
     lehti.commands.clone
+    lehti.commands.upgrade
+    lehti.commands.contents
+    lehti.commands.environment
     )
   )

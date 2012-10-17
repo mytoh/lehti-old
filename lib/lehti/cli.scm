@@ -48,6 +48,12 @@
          (edit (cadr rest)))
         ("clone"
          (clone (cadr rest)))
+        ("upgrade"
+         (upgrade rest))
+        ((or "contents" "con")
+         (contents rest))
+        ((or "environment" "env")
+         (environment ))
         (_ (usage 0))))))
 
 
