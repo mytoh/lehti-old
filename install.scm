@@ -12,7 +12,8 @@
     (print "cloning repository")
     (run-process `(git clone git://github.com/mytoh/lehti ,*lehti-directory*) :wait #t)
 
-    (print "creating riisi directory")
+    (print "creating dist directory")
+    (make-directory* (build-path *lehti-directory* "dist"))
 
     (print "make executable")
     (sys-chmod (build-path *lehti-directory* "bin/leh") #o755)
