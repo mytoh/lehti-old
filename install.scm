@@ -19,6 +19,7 @@
     (sys-chmod (build-path *lehti-directory* "bin/leh") #o755)
 
     (newline)
+    (print "relaunch shell")
     ))
 
 
