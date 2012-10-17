@@ -7,7 +7,9 @@ install
 -------
 ::
 
-    git clone git://github.com/mytoh/lehti ~/.lehti
+    git clone git://github.com/mytoh/lehti
+    cd lehti
+    gosh install.scm
 
 setting
 -------
