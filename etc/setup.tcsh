@@ -13,5 +13,5 @@ setenv LEHTI_LOAD_PATH "`leh setup load-path`"
 setenv GAUCHE_LOAD_PATH "${LEHTI_LOAD_PATH}:${GAUCHE_LOAD_PATH}"
 
 # dyn load path
-setenv GAUCHE_DYNLOAD_PATH `leh setup dynload-path`
+setenv GAUCHE_DYNLOAD_PATH "`leh setup dynload-path`"
 
