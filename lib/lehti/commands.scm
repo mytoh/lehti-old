@@ -19,5 +19,6 @@
     lehti.commands.upgrade
     lehti.commands.contents
     lehti.commands.environment
+    lehti.commands.search
     )
   )

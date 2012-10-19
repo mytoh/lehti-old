@@ -54,8 +54,7 @@
          (contents rest))
         ((or "environment" "env")
          (environment ))
+        ("search"
+         (search rest))
         (_ (usage 0))))))
-
-
-
 
