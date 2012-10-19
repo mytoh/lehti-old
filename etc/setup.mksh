@@ -1,6 +1,6 @@
 
 # setup
-if [[ -z $LEHTI_DIR ]] then
+if [[ -z $LEHTI_DIR ]]; then
 export LEHTI_DIR="${HOME}/.lehti"
 fi
 export LEHTI_LIB_DIR="${LEHTI_DIR}/lib"
@@ -9,9 +9,9 @@ export PATH="${LEHTI_DIR}/bin:${PATH}"
 
 
 # load path
-export LEHTI_LOAD_PATH="`leh setup load-path`"
+export LEHTI_LOAD_PATH="$(leh setup load-path)"
 export GAUCHE_LOAD_PATH="${LEHTI_LOAD_PATH}:${GAUCHE_LOAD_PATH}"
 
 # dyn load path
-export GAUCHE_DYNLOAD_PATH=`leh setup dynload-path`
+export GAUCHE_DYNLOAD_PATH="$(leh setup dynload-path)"
 
