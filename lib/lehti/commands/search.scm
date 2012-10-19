@@ -4,7 +4,6 @@
 (define-module lehti.commands.search
   (export search)
   (use lehti)
-  (use kirjasto.pääte)
   (use file.util)
   (use gauche.process))
 (select-module lehti.commands.search)
