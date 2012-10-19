@@ -11,7 +11,6 @@
 
 
 (define (search packages)
-  (print packages)
   (puts-columns
     (map
       (lambda (path) (path-sans-extension path))
