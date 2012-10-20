@@ -1,5 +1,4 @@
 
-
 ;; -*- coding: utf-8 -*-
 
 (define-module lehti.util
@@ -8,6 +7,8 @@
     package-is-installed?
     package-is-available?)
   (use lehti.env)
+  (use srfi-1)
+  (use util.list)
   (use file.util)
   (use gauche.process))
 (select-module lehti.util)
