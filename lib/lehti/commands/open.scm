@@ -1,5 +1,4 @@
 
-
 ;; -*- coding: utf-8 -*-
 
 (define-module lehti.commands.open
