@@ -88,6 +88,7 @@
                    (remove-directory* cache-directory))
                  (else
                    (let ((lehspec (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))))
+                     (install-dependencies lehspec)
                    (install-files package (car (assoc-ref lehspec 'files)))
                    (generate-bin-file package)
                    (remove-directory* cache-directory)))))))
