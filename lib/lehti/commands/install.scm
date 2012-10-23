@@ -54,7 +54,7 @@
     (for-each
       (lambda (d)
       (install d))
-      depes)))
+      deps)))
 
 (define install
   (lambda (packages)
