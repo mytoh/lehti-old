@@ -51,10 +51,8 @@
 
 (define (install-dependencies spec)
   (let ((deps (car (assoc-ref spec 'dependencies))))
-    (for-each
-      (lambda (d)
-      (install d))
-      deps)))
+    (install deps)
+    ))
 
 (define install
   (lambda (packages)
