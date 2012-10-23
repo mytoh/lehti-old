@@ -49,6 +49,13 @@
             l)))
       files)))
 
+(define (install-dependencies spec)
+  (let ((deps (car (assoc-ref spec 'dependencies))))
+    (for-each
+      (lambda (d)
+      (install d))
+      depes)))
+
 (define install
   (lambda (packages)
     (for-each
