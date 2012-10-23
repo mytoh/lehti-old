@@ -6,31 +6,48 @@
   (use lehti.commands.fetch)
   (use text.tree)
   (use file.util)
+  (use util.list)
   (use gauche.process))
 (select-module lehti.commands.install)
 
 
-
 (define (generate-bin-file name)
-  (if (file-exists? (build-path (*lehti-cache-directory*) name "bin"))
+  (if (file-exists? (build-path (*lehti-dist-directory*) name "bin"))
     (call-with-output-file
       (build-path (*lehti-directory*) "bin" name)
       (lambda (out)
         (display
           (string-join
-            `( " \":\"; exec gosh -- $0 \"$@\""
+            `(" \":\"; exec gosh -- $0 \"$@\""
                ";; -*- coding: utf-8 -*-"
                ""
                "(use lehti)"
                "(use file.util)"
-               "" 
+               ""
                ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
                ";; vim:filetype=scheme")
             "\n"
             'suffix)
           out)
-        (run-process `(chmod +x ,(build-path (*lehti-directory*) "bin" name))
-                     :wait #t )))))
+        (sys-chmod (build-path (*lehti-dist-directory*) name "bin" name) #o755)
+        (sys-chmod (build-path (*lehti-directory*) "bin" name) #o755)
+        ))))
+
+(define (install-files package-name file-list)
+  (let ((files (map glob file-list)))
+    (for-each
+      (lambda (l)
+        (when (not (null? l))
+          (for-each
+            (lambda (file)
+              (if (file-is-directory? file)
+                (make-directory* file)
+                (let ((dir (build-path (*lehti-dist-directory*) package-name (sys-dirname file))))
+                  (make-directory* dir)
+                  (copy-file file
+                             (build-path (*lehti-dist-directory*) package-name file)))))
+            l)))
+      files)))
 
 (define install
   (lambda (packages)
@@ -52,28 +69,21 @@
                                               package))
                  (prefix-directory  (build-path  (*lehti-dist-directory* )
                                                  package)))
-             (let
-               ((url  (cadr  (assoc 'url lehtifile)))
-                (install-commands (assoc 'install lehtifile)))
+             (let ((url  (cadr  (assoc 'url lehtifile)))
+                   (install-commands (assoc 'install lehtifile)))
+             (current-directory (fetch url package))
                (cond
                  (install-commands
-                   (current-directory (fetch url package))
                    (for-each
                      (lambda (c) (eval c (interaction-environment)))
                      (cadr install-commands))
-                   (generate-bin-file package) 
-                   (remove-directory* cache-directory)
-                   )
+                   (generate-bin-file package)
+                   (remove-directory* cache-directory))
                  (else
-                   (current-directory (fetch url package))
-                   (let ((cmd (cadr (assoc 'install (file->sexp-list (build-path cache-directory
-                                                                                 (path-swap-extension package "leh")))))))
-                     (for-each
-                       (lambda (c) (eval c (interaction-environment)))
-                       cmd))
-                   (generate-bin-file package)     
-                   (remove-directory* cache-directory)
-                   )))))
+                   (let ((lehspec (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))))
+                   (install-files package (car (assoc-ref lehspec 'files)))
+                   (generate-bin-file package)
+                   (remove-directory* cache-directory)))))))
           (else
             (print (string-append
                      "package "
