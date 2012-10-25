@@ -19,13 +19,13 @@
         (display
           (string-join
             `(" \":\"; exec gosh -- $0 \"$@\""
-               ";; -*- coding: utf-8 -*-"
-               ""
-               "(use lehti)"
-               "(use file.util)"
-               ""
-               ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
-               ";; vim:filetype=scheme")
+              ";; -*- coding: utf-8 -*-"
+              ""
+              "(use lehti)"
+              "(use file.util)"
+              ""
+              ,#`"(load (build-path (*lehti-dist-directory*) \",|name|\" \"bin\" \",|name|\"))"
+              ";; vim:filetype=scheme")
             "\n"
             'suffix)
           out)
@@ -50,9 +50,9 @@
       files)))
 
 (define (install-dependencies spec)
-  (let ((deps (car (assoc-ref spec 'dependencies))))
-    (install deps)
-    ))
+  (let ( (deps (assoc-ref spec 'dependencies)))
+    (when deps
+      (install (car deps)))))
 
 (define install
   (lambda (packages)
@@ -64,9 +64,6 @@
                     (colour-string 12 package)
                     " is already installed!")))
           ((package-is-available? package)
-           (print (string-append
-                    "installing "
-                    (colour-string 12 package)))
            (let ((lehtifile (file->sexp-list (build-path (*lehti-leh-file-directory* )
                                                          (string-append package
                                                                         ".leh"))))
@@ -76,9 +73,12 @@
                                                  package)))
              (let ((url  (cadr  (assoc 'url lehtifile)))
                    (install-commands (assoc 'install lehtifile)))
-             (current-directory (fetch url package))
+               (current-directory (fetch url package))
                (cond
                  (install-commands
+                   (print (string-append
+                            "installing "
+                            (colour-string 12 package)))
                    (for-each
                      (lambda (c) (eval c (interaction-environment)))
                      (cadr install-commands))
@@ -87,9 +87,12 @@
                  (else
                    (let ((lehspec (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))))
                      (install-dependencies lehspec)
-                   (install-files package (car (assoc-ref lehspec 'files)))
-                   (generate-bin-file package)
-                   (remove-directory* cache-directory)))))))
+                     (print (string-append
+                              "installing "
+                              (colour-string 12 package)))
+                     (install-files package (car (assoc-ref lehspec 'files)))
+                     (generate-bin-file package)
+                     (remove-directory* cache-directory)))))))
           (else
             (print (string-append
                      "package "
