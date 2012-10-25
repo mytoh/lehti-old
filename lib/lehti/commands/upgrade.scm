@@ -15,7 +15,7 @@
   (let ((names (cdr names)))
     (if (null? names)
       (reinstall (list-packages))
-      (for-each reinstall names))))
+      (for-each reinstall (list names)))))
 
 (define (list-packages)
   (map
