@@ -6,7 +6,10 @@
    (run-process '(./DIST gen) :wait #t)
    (run-process `(./configure ,(string-append "--prefix="
                                               (build-path ( *lehti-dist-directory* ) "makiki" ))) :wait #t)
+   (cond 
+   ((find-file-in-paths "gmake")
    (run-process `(gmake -s check) :wait #t)
-   (run-process `(gmake install) :wait #t)
-   )
-  )
+   (run-process `(gmake install) :wait #t))
+   (else
+   (run-process `(make -s check) :wait #t)
+   (run-process `(make install) :wait #t)))))
