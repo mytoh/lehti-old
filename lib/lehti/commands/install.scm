@@ -50,7 +50,7 @@
       files)))
 
 (define-method install-dependencies ((self <lehspec>))
-  (let ((deps (ref spc 'dependencies)))
+  (let ((deps (ref self 'dependencies)))
     (when deps
       (install deps))))
 
