@@ -18,8 +18,8 @@
   (let ((register (lambda (i e)
                     (if (assoc-ref i e)
                       (car (assoc-ref i e))
-                      #f)))))
+                      #f))))
   (make <lehspec>
-        :files (register infos 'files)  
-        :dependencies (register infos 'dependencies))
+        :files (register infos 'files)
+        :dependencies (register infos 'dependencies))) 
   )
