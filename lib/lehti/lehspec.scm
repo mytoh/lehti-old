@@ -15,7 +15,11 @@
    (dependencies :init-value '() :init-keyword :dependencies :accessor spec-dependencies-of)))
 
 (define (spec . infos)
+  (let ((register (lambda (i e)
+                    (if (assoc-ref i e)
+                      (car (assoc-ref i e))
+                      #f)))))
   (make <lehspec>
-        :files (car (assoc-ref infos 'files))  
-        :dependencies (car (assoc-ref infos 'dependencies)))
+        :files (register infos 'files)  
+        :dependencies (register infos 'dependencies))
   )
