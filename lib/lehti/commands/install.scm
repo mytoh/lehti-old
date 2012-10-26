@@ -50,7 +50,7 @@
       files)))
 
 (define (install-dependencies spec)
-  (let ( (deps (ref spec 'dependencies)))
+  (let ((deps (spec-dependencies-of 'dependencies)))
     (when deps
       (install (car deps)))))
 
@@ -90,7 +90,7 @@
                      (print (string-append
                               "installing "
                               (colour-string 12 package)))
-                     (install-files package (ref lehspec 'files))
+                     (install-files package (spec-files-of 'files))
                      (generate-bin-file package)
                      (remove-directory* cache-directory)))))))
           (else

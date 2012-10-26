@@ -11,8 +11,8 @@
 (select-module lehti.lehspec)
 
 (define-class <lehspec> ()
-  ((files :init-value '() :init-keyword :files :accessor spec-files)
-   (dependencies :init-value '() :init-keyword :dependencies :accessor spec-dependencies)))
+  ((files :init-value '() :init-keyword :files :accessor spec-files-of)
+   (dependencies :init-value '() :init-keyword :dependencies :accessor spec-dependencies-of)))
 
 (define (spec . infos)
   (make <lehspec>
