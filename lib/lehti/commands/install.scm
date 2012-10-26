@@ -52,7 +52,7 @@
 (define (install-dependencies spc)
   (let ((deps (ref spc 'dependencies)))
     (when deps
-      (install (car deps)))))
+      (install deps))))
 
 (define install
   (lambda (packages)
