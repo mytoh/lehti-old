@@ -49,7 +49,7 @@
             l)))
       files)))
 
-(define (install-dependencies spc)
+(define-method install-dependencies ((self <lespec>))
   (let ((deps (ref spc 'dependencies)))
     (when deps
       (install deps))))
