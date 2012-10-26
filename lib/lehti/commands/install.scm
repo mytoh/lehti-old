@@ -50,7 +50,7 @@
       files)))
 
 (define (install-dependencies spec)
-  (let ( (deps (assoc-ref spec 'dependencies)))
+  (let ( (deps (ref spec 'dependencies)))
     (when deps
       (install (car deps)))))
 
@@ -85,12 +85,12 @@
                    (generate-bin-file package)
                    (remove-directory* cache-directory))
                  (else
-                   (let ((lehspec (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))))
+                   (let ((lehspec (eval  (car (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))) (interaction-environment))))
                      (install-dependencies lehspec)
                      (print (string-append
                               "installing "
                               (colour-string 12 package)))
-                     (install-files package (car (assoc-ref lehspec 'files)))
+                     (install-files package (ref lehspec 'files))
                      (generate-bin-file package)
                      (remove-directory* cache-directory)))))))
           (else
