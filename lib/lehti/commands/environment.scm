@@ -13,18 +13,17 @@
 (define (environment)
   (display
     (string-join
-      `(
-        "Lehti Environment:"
+      `("Lehti Environment:"
         ,(string-append "  - " (colour-string 93 "GAUCHE_VERSION") ": " (gauche-version) " [" (gauche-architecture) "]")
-        ,#`"  - INSTALLATION DIRECTORY: ,(*lehti-directory*)"
-        ,#`"  - GAUCHE EXECUTABLE: ,(find-file-in-paths \"gosh\" )"
-        ,#`"  - EXECUTABLE DIRECTORY: ,(sys-dirname (find-file-in-paths \"gosh\"))"
-        "  - LEHTI PLATFORMS:"
-        ,#`"    - ,(sys-basename (find-file-in-paths \"gosh\" ))"
-        ,#`"    - ,(gauche-architecture)"
-        "  - LEHTI BIN PATHS:"
-        ,#`"     - ,(*lehti-bin-directory*)"
-        "  - LEHTI LOAD PATHS:"
+        ,(string-append "  - " (colour-string 109 "INSTALLATION DIRECTORY") ": "  (*lehti-directory*))
+        ,(string-append "  - " (colour-string 44 "GAUCHE EXECUTABLE") ": " (find-file-in-paths "gosh"))
+        ,(string-append "  - " (colour-string 60 "EXECUTABLE DIRECTORY") ": " (sys-dirname (find-file-in-paths "gosh")))
+        ,(string-append "  - " (colour-string 63 "LEHTI PLATFORMS") ":" )
+        ,(string-append "    - " (sys-basename (find-file-in-paths "gosh")))
+        ,(string-append "    - " (gauche-architecture))
+        ,(string-append "  - " (colour-string 28 "LEHTI BIN PATHS") ":" )
+        ,(string-append "     - " (*lehti-bin-directory*))
+        ,(string-append "  - " (colour-string 128 "LEHTI LOAD PATHS") ":" )
         ,@(map
             (lambda (path)
               (string-append

@@ -3,6 +3,7 @@
 
 (define-module lehti.util
   (export
+    flatten
     puts-columns
     package-is-installed?
     package-is-available?)
@@ -21,8 +22,8 @@
 
 (define (package-is-available? package)
   (if (file-exists? (build-path (*lehti-leh-file-directory* )
-                                      (path-swap-extension package
-                                                           "leh")))
+                                (path-swap-extension package
+                                                     "leh")))
     #t #f))
 
 
@@ -56,3 +57,9 @@
           (newline)
           (loop (drop* itm cols)))))
     (newline)))
+
+(define (flatten lst)
+  (cond
+    ((null? lst) '())
+    ((list? lst) (append (flatten (car lst)) (flatten (cdr lst))))
+    (else (list lst))))
