@@ -10,9 +10,10 @@
   (use file.util))
 (select-module lehti.commands.specification)
 
-(define (specification package)
-(let  ((lehspec (eval  (car (file->sexp-list (build-path *lehti-dist-directory* package (path-swap-extension package "lehspec"))))
+(define (specification args)
+  (let ((name (cadr args))))
+(let  ((lehspec (eval  (car (file->sexp-list (build-path *lehti-dist-directory* name (path-swap-extension name "lehspec"))))
                         (interaction-environment))))
-  (ref lehspec 'name)
+  (print (ref lehspec 'name))  
   ))
 
