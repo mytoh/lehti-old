@@ -57,6 +57,6 @@
         ("search"
          (search rest))
         ((or "specification" "spec")
-         (search rest))
+         (specification rest))
         (_ (usage 0))))))
 
