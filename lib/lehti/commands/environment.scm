@@ -15,7 +15,7 @@
     (string-join
       `(
         "Lehti Environment:"
-        "  - " ,(colour-string 93 "GAUCHE_VERSION") ": " ,(gauche-version) " [" ,(gauche-architecture) "]"
+        ,(string-append "  - " (colour-string 93 "GAUCHE_VERSION") ": " (gauche-version) " [" (gauche-architecture) "]")
         ,#`"  - INSTALLATION DIRECTORY: ,(*lehti-directory*)"
         ,#`"  - GAUCHE EXECUTABLE: ,(find-file-in-paths \"gosh\" )"
         ,#`"  - EXECUTABLE DIRECTORY: ,(sys-dirname (find-file-in-paths \"gosh\"))"
