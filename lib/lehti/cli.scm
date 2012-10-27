@@ -56,5 +56,7 @@
          (environment ))
         ("search"
          (search rest))
+        ((or "specification" "spec")
+         (search rest))
         (_ (usage 0))))))
 

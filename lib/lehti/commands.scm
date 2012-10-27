@@ -20,5 +20,6 @@
     lehti.commands.contents
     lehti.commands.environment
     lehti.commands.search
+    lehti.commands.specification
     )
   )
