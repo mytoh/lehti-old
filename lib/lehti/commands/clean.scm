@@ -8,9 +8,15 @@
 (select-module lehti.commands.clean)
 
 (define  (clean name)
-  (let ((path (build-path (*lehti-cache-dirctory*) name)))
-    (cond
-      ((file-is-symlink? path)
-       (sys-remove path))
-      ((file-is-directory? path)
-       (remove-directory* path)))))
+  (let ((packages (cdr name)))
+    (for-each
+      (lambda (p)
+      (let ((path (build-path (*lehti-cache-directory*) p)))
+        (cond
+          ((file-is-symlink? path)
+           (print "cleaning " path)
+           (sys-remove path))
+          ((file-is-directory? path)
+           (print "cleaning " path)
+           (remove-directory* path)))))
+      packages)))

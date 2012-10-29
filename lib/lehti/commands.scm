@@ -21,5 +21,6 @@
     lehti.commands.environment
     lehti.commands.search
     lehti.commands.specification
+    lehti.commands.clean
     )
   )
