@@ -14,5 +14,5 @@
     print
     (map
       (lambda (path) (path-sans-extension path))
-      (directory-list (build-path ( *lehti-directory* ) "src/lehti/commands" )
+      (directory-list (build-path ( *lehti-directory* ) "lib/lehti/commands" )
                       :children? #t))))

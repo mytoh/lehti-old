@@ -4,14 +4,16 @@
 (define-module lehti.väri
   (export
     colour-string
-    )
+
+    colour-package
+    colour-symbol1
+    colour-symbol2)
+  (use gauche.parameter)
   (use gauche.process)
   (require-extension
-    (srfi 13))
-  )
+    (srfi 13)))
 
 (select-module lehti.väri)
-
 
 
 (define (colour-string colour-number s)
@@ -28,3 +30,14 @@
           ,s
           "[0m")))))
 
+(define colour-symbol1
+  (make-parameter
+    208))
+
+(define colour-symbol2
+  (make-parameter
+    95))
+
+(define colour-package
+  (make-parameter
+    156))

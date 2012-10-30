@@ -60,9 +60,8 @@
       (lambda (package)
         (cond
           ((package-is-installed? package)
-           (print (string-append
-                    (colour-string 12 package)
-                    " is already installed!")))
+           (oai (colour-string (colour-package) package)
+                    " is already installed!"))
           ((package-is-available? package)
            (let ((lehtifile (file->sexp-list (build-path (*lehti-leh-file-directory* )
                                                          (string-append package
@@ -76,9 +75,7 @@
                (current-directory (fetch url package))
                (cond
                  (install-commands
-                   (print (string-append
-                            "installing "
-                            (colour-string 12 package)))
+                   (ohei "installing " (colour-string (colour-package) package))
                    (for-each
                      (lambda (c) (eval c (interaction-environment)))
                      (cadr install-commands))
@@ -87,15 +84,11 @@
                  (else
                    (let ((lehspec (eval  (car (file->sexp-list (build-path cache-directory (path-swap-extension package "lehspec")))) (interaction-environment))))
                      (install-dependencies lehspec)
-                     (print (string-append
-                              "installing "
-                              (colour-string 12 package)))
+                     (ohei "installing " (colour-string (colour-package) package))
                      (install-files package (ref lehspec 'files))
                      (generate-bin-file package)
                      (remove-directory* cache-directory)))))))
           (else
-            (print (string-append
-                     "package "
-                     (colour-string 12 package)
-                     " is not available!")))))
+            (oai "package " (colour-string (colour-package) package)
+                     " is not available!"))))
       packages)))

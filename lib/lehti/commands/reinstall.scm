@@ -21,12 +21,9 @@
          (uninstall (list package))
          (install (list package)))
         ((package-is-available? package)
-          (print (string-append
-                   (colour-string 33 package)
-                   " not installed")))
+         (oai (colour-string 33 package)
+              " not installed"))
         (else
-          (print (string-append
-                   "package "
-                   (colour-string 12 package)
-                   " is not available")))))
+          (oai "package " (colour-string (colour-package) package)
+               " is not available"))))
     packages))

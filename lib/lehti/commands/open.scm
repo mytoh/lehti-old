@@ -22,5 +22,5 @@
     (if (file-exists? path)
       (run-process `(,(editor) ,path)
                    :wait #t)
-      (print "no package found"))
+      (oai "no package found"))
     ))

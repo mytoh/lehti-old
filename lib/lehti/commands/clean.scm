@@ -14,9 +14,9 @@
       (let ((path (build-path (*lehti-cache-directory*) p)))
         (cond
           ((file-is-symlink? path)
-           (print "cleaning " path)
+           (ohei (string-append "cleaning " path))
            (sys-remove path))
           ((file-is-directory? path)
-           (print "cleaning " path)
+           (ohei (string-append "cleaning " path))
            (remove-directory* path)))))
       packages)))
