@@ -36,7 +36,7 @@
 
 (define colour-symbol2
   (make-parameter
-    95))
+    196))
 
 (define colour-package
   (make-parameter

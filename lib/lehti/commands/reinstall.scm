@@ -11,8 +11,6 @@
 (select-module lehti.commands.reinstall)
 
 
-
-
 (define (reinstall packages)
   (for-each
     (lambda (package)

@@ -12,14 +12,14 @@
 
 (define fetch
   (lambda (url package)
-    (let ((tmpdir ( *lehti-cache-directory* )))
+    (let ((tmpdir (*lehti-cache-directory* )))
       (make-directory* tmpdir)
       (current-directory tmpdir)
       (cond
         ((url-is-git? url)
+         (if (file-exists? package)
+           (remove-directory* package))
          (run-process `(git clone -q ,url ,package) :wait #t))
         (else
-          exit)
-        )
-      (build-path tmpdir package)
-      )))
+          exit))
+      (build-path tmpdir package))))
