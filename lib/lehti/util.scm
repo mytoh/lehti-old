@@ -35,7 +35,8 @@
         0 string-list))
 
 (define (puts-columns items)
-  (let* ((console-width (string->number  (process-output->string "tput cols " )))
+  (let* ((console-width (if (< 80 (string->number  (process-output->string "tput cols" )))
+                          80 (string->number (process-output->string "tput cols"))))
          (longest (string-longest items))
          (optimal-col-width (floor->exact (/. console-width (+ longest 2))))
          (cols (if (< 1 optimal-col-width ) optimal-col-width 1)))

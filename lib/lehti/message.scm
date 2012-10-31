@@ -7,8 +7,7 @@
   (use gauche.parameter)
   (use util.match)
   (use file.util)
-  (use lehti.väri)
-  )
+  (use lehti.väri))
 (select-module lehti.message)
 
 
