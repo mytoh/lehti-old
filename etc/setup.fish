@@ -7,8 +7,8 @@ set -x PATH $LEHTI_DIR/bin $PATH
 
 
 # load path
-set -x LEHTI_LOAD_PATH (leh setup load-path)
+set -x LEHTI_LOAD_PATH $LEHTI_DIR/dist/maali/lib
 set -x GAUCHE_LOAD_PATH $LEHTI_LOAD_PATH $GAUCHE_LOAD_PATH
 
 # dyn load path
-set -x GAUCHE_DYNLOAD_PATH (leh setup dynload-path)
+# set -x GAUCHE_DYNLOAD_PATH (leh setup dynload-path)
